@@ -20,21 +20,23 @@ export default function Content() {
     <>
       <SideNavBarLayout title={appInfo.title}>
         <ThemeProvider theme={customMuiTheme}>
-          <MainTabsComponent
-            mainSelectedTab={mainSelectedTab}
-            setMainSelectedTab={setMainSelectedTab}
-          />
-          {mainSelectedTab === 0 ? (
-            <ConnectionsTabsComponent
-              selectedTab={connectionsSelectedTab}
-              setSelectedTab={setConnectionsSelectedTab}
+          <div style={{paddingLeft:'10px'}}>
+            <MainTabsComponent
+              mainSelectedTab={mainSelectedTab}
+              setMainSelectedTab={setMainSelectedTab}
             />
-          ) : (
-            <LayoutTabsComponent
-              selectedTab={layoutsSelectedTab}
-              setSelectedTab={setLayoutsSelectedTab}
-            />
-          )}
+            {mainSelectedTab === 0 ? (
+              <ConnectionsTabsComponent
+                selectedTab={connectionsSelectedTab}
+                setSelectedTab={setConnectionsSelectedTab}
+              />
+            ) : (
+              <LayoutTabsComponent
+                selectedTab={layoutsSelectedTab}
+                setSelectedTab={setLayoutsSelectedTab}
+              />
+            )}
+          </div>
         </ThemeProvider>
         <Routes>
           {routes.map(({ path, element }) => (
