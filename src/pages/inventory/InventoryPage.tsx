@@ -22,7 +22,7 @@ export default function InventoryPage() {
             columnAutoWidth={true}
             columnHidingEnabled={true}
           >
-            <Paging defaultPageSize={10} />
+            <Paging defaultPageSize={10}  />
             <Pager showPageSizeSelector={true} showInfo={true} />
             <FilterRow visible={true} />
     
