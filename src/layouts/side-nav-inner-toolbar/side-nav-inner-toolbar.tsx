@@ -113,7 +113,7 @@ export default function SideNavInnerToolbar({
             <Toolbar id={"navigation-header"}>
               {!isXSmall && (
                 <Item location={"before"} cssClass={"menu-button"}>
-                  <Button icon="menu" stylingMode="text" onClick={toggleMenu}  />
+                  <Button icon="menu" stylingMode="outlined" className= "custom-menu" onClick={toggleMenu} />
                 </Item>
               )}
               <Item location={"before"}>

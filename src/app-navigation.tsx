@@ -9,7 +9,7 @@ export const pagesAndRoutes = [
   { name: "Inventory", route: "/inventory", icon: "orderedlist", component: InventoryPage },
   // { name: "Work Order", route: "/work-order", icon: "taskcomplete", component: WorkOrderPage },
   // { name: "Billing", route: "/billing", icon: "money", component: BillingPage },
-  { name: "Settings", route: "/settings", icon: "preferences", component: SettingsPage},
+  // { name: "Settings", route: "/settings", icon: "preferences", component: SettingsPage},
   { name: "Admin", route: "/admin", icon: "user", component: AdminPage},
 ];
 

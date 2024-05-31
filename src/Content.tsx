@@ -95,12 +95,12 @@ export default function Content() {
             </>
           )} */}
 
-            {location.pathname === "/admin" && (
+            {/* {location.pathname === "/admin" && (
               <AdminTabsComponent
                 selectedTab={adminSelectedTab}
                 setSelectedTab={setAdminSelectedTab}
               />
-            )}
+            )} */}
 
             {location.pathname === "/inventory" && (
               <div style={{ display: "flex" }}>
@@ -110,12 +110,22 @@ export default function Content() {
               </div>
             )}
           </ThemeProvider>
-          <Routes>
-            {routes.map(({ path, element }) => (
-              <Route key={path} path={path} element={element} />
-            ))}
-            <Route path="*" element={<Navigate to="/inventory" />} />
-          </Routes>
+          <Box
+            sx={{
+              width: "100%", // Adjust this to fit your design
+              overflowX: "auto",
+              display: "flex",
+              flexWrap: "nowrap",
+              paddingRight: 1,
+            }}
+          >
+            <Routes>
+              {routes.map(({ path, element }) => (
+                <Route key={path} path={path} element={element} />
+              ))}
+              <Route path="*" element={<Navigate to="/inventory" />} />
+            </Routes>
+          </Box>
           <Footer>
             Copyright © 2011-{new Date().getFullYear()} Scan Systems Inc.
             <br />
@@ -154,14 +164,15 @@ const ReportComboBox = ({
 
   const handleChange = (event: SelectChangeEvent<string>) => {
     setSelectedItem(event.target.value);
-  };
-
-  const handleOpenLink = () => {
-    const selected = list.find((item) => item.link === selectedItem);
+    
+    const selected = list.find((item) => item.name === selectedItem);
+    console.log(selected);  
+    
     if (selected) {
       window.open(selected.link, "_blank");
     }
   };
+
 
   return (
     <Box sx={{ display: "flex", alignItems: "center", padding: 2 }}>
@@ -171,40 +182,15 @@ const ReportComboBox = ({
           value={selectedItem}
           onChange={handleChange}
           label={title}
-          MenuProps={{
-            PaperProps: {
-              sx: {
-                "& .MuiMenuItem-root.Mui-selected": {
-                  backgroundColor: "initial",
-                },
-                "& .MuiMenuItem-root:hover": {
-                  backgroundColor: "lightgray",
-                },
-                "& .MuiMenuItem-root": {
-                  "&.Mui-selected:hover": {
-                    backgroundColor: "lightgray",
-                  },
-                },
-              },
-            },
-          }}
+      
         >
           {list.map((item, index) => (
-            <MenuItem key={index} value={item.link}>
+            <MenuItem key={index} value={item.name}>
               {item.name}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
-      {selectedItem && (
-        <Button
-          onClick={handleOpenLink}
-          variant="contained"
-          sx={{ marginLeft: 2 }}
-        >
-          Open
-        </Button>
-      )}
     </Box>
   );
 };

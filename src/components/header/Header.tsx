@@ -5,7 +5,6 @@ import UserPanel from "../user-panel/UserPanel";
 import "./Header.scss";
 import { Template } from "devextreme-react/core/template";
 import type { HeaderProps } from "../../types";
-import logo from "../../assets/scansyslogo.png";
 
 export default function Header({
   menuToggleEnabled,
@@ -23,9 +22,7 @@ export default function Header({
         >
           <Button icon="menu" stylingMode="text" onClick={toggleMenu} />
         </Item>
-        <Item location={"before"} cssClass={"header-logo"}>
-          <img src={logo} alt="logo" style={{maxHeight:'50px'}} />
-        </Item>
+  
 
         <Item
           location={"after"}
