@@ -4,9 +4,11 @@ import DataGrid, {
   Pager,
   Paging,
   FilterRow,
-  Lookup
+  Lookup,
+  GroupPanel
 } from 'devextreme-react/data-grid';
 import React from "react";
+import { Group } from '@mui/icons-material';
 
 export default function InventoryPage() {
     return (
@@ -22,6 +24,7 @@ export default function InventoryPage() {
             columnAutoWidth={true}
             columnHidingEnabled={true}
           >
+            <GroupPanel visible={true} />
             <Paging defaultPageSize={10}  />
             <Pager showPageSizeSelector={true} showInfo={true} />
             <FilterRow visible={true} />
