@@ -13,6 +13,8 @@ import {
   SelectChangeEvent,
   Box,
   Button,
+  Menu,
+  Icon,
 } from "@mui/material"; // Import Tabs and Tab from MUI
 import appInfo from "./app-info";
 import routes from "./app-routes";
@@ -22,6 +24,7 @@ import TopNavigationMenu from "./components/top-navigation-menu/TopNavigationMen
 import { Footer } from "./components";
 import { useState } from "react";
 import { customMuiTheme } from "./components/top-navigation-menu/TopNavigationMenu";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 const connectionsList = [
   "All",
@@ -106,7 +109,7 @@ export default function Content() {
               <div style={{ display: "flex" }}>
                 <ComboBox list={connectionsList} title="Connections" />
                 <ComboBox list={layoutsList} title="Layouts" />
-                <ReportComboBox list={reportsListWithLinks} title="Reports" />
+                <ReportMenu list={reportsListWithLinks} title="Reports" />
               </div>
             )}
           </ThemeProvider>
@@ -153,43 +156,62 @@ const ComboBox = ({ list, title }: { list: string[]; title: string }) => {
   );
 };
 
-const ReportComboBox = ({
+const ReportMenu = ({
   list,
   title,
 }: {
   list: { name: string; link: string }[];
   title: string;
 }) => {
-  const [selectedItem, setSelectedItem] = useState("");
-
-  const handleChange = (event: SelectChangeEvent<string>) => {
-    setSelectedItem(event.target.value);
-    
-    const selected = list.find((item) => item.name === selectedItem);
-    console.log(selected);  
-    
-    if (selected) {
-      window.open(selected.link, "_blank");
-    }
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
   };
 
+  const handleMenuItemClick = (event: React.MouseEvent<HTMLElement>) => {
+    window.open(event.currentTarget.getAttribute("data-link")!, "_blank");
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <Box sx={{ display: "flex", alignItems: "center", padding: 2 }}>
+      <Button
+        id="basic-button"
+        aria-controls={open ? "basic-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+        onClick={handleClick}
+        sx={{ color: "black" }}
+      >
+        <Box sx={{ display: "flex" }}>
+          <Box>{title}</Box>
+          <ArrowDropDownIcon />
+        </Box>
+      </Button>
       <FormControl sx={{ width: 300 }}>
-        <InputLabel>{title}</InputLabel>
-        <Select
-          value={selectedItem}
-          onChange={handleChange}
-          label={title}
-      
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
         >
           {list.map((item, index) => (
-            <MenuItem key={index} value={item.name}>
+            <MenuItem
+              key={index}
+              value={item.name}
+              onClick={handleMenuItemClick}
+            >
               {item.name}
             </MenuItem>
           ))}
-        </Select>
+        </Menu>
       </FormControl>
     </Box>
   );
