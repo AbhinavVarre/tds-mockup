@@ -70,15 +70,15 @@ const reportsListWithLinks = [
 
 const nestedReports = [
   {
-    name: "Current balance report",
+    name: "Total Summary",
     link: "https://www.google.com",
   },
   {
-    name: "Reserved Material report",
+    name: "Sub Totals Summary",
     link: "https://www.google.com",
   },
   {
-    name: "Total Tonnage report",
+    name: "Size Weight Summary",
     link: "https://www.google.com",
   },
 ];
