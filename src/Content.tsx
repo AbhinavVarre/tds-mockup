@@ -59,7 +59,30 @@ const reportsListWithLinks = [
     name: "Total Tonnage report",
     link: "https://www.google.com",
   },
+
+  {
+    name: "Summary reports",
+    link: "",
+  }
+
 ];
+
+
+const nestedReports = [
+  {
+    name: "Current balance report",
+    link: "https://www.google.com",
+  },
+  {
+    name: "Reserved Material report",
+    link: "https://www.google.com",
+  },
+  {
+    name: "Total Tonnage report",
+    link: "https://www.google.com",
+  },
+];
+
 
 const layoutsList = ["Sucker Rod Layout", "Casing Layout", "Tubing Layout"];
 
@@ -156,25 +179,40 @@ const ComboBox = ({ list, title }: { list: string[]; title: string }) => {
   );
 };
 
-const ReportMenu = ({
-  list,
-  title,
-}: {
-  list: { name: string; link: string }[];
+interface ReportItem {
+  name: string;
+  link: string;
+}
+
+interface ReportMenuProps {
+  list: ReportItem[];
   title: string;
-}) => {
+}
+
+const ReportMenu = ({ list, title }: ReportMenuProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [nestedAnchorEl, setNestedAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const nestedOpen = Boolean(nestedAnchorEl);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMenuItemClick = (event: React.MouseEvent<HTMLElement>) => {
-    window.open(event.currentTarget.getAttribute("data-link")!, "_blank");
+  const handleMenuItemClick = (link: string) => {
+    if (link) {
+      window.open(link, "_blank");
+    }
+    handleClose();
   };
 
   const handleClose = () => {
     setAnchorEl(null);
+    setNestedAnchorEl(null);
+  };
+
+  const handleNestedMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setNestedAnchorEl(event.currentTarget);
   };
 
   return (
@@ -187,32 +225,50 @@ const ReportMenu = ({
         onClick={handleClick}
         sx={{ color: "black" }}
       >
-        <Box sx={{ display: "flex" }}>
-          <Box>{title}</Box>
-          <ArrowDropDownIcon />
-        </Box>
+        {title} <ArrowDropDownIcon />
       </Button>
-      <FormControl sx={{ width: 300 }}>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{
-            "aria-labelledby": "basic-button",
-          }}
-        >
-          {list.map((item, index) => (
-            <MenuItem
-              key={index}
-              value={item.name}
-              onClick={handleMenuItemClick}
-            >
-              {item.name}
-            </MenuItem>
-          ))}
-        </Menu>
-      </FormControl>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        {list.map((item, index) => (
+          <MenuItem
+            key={index}
+            onClick={() => handleMenuItemClick(item.link)}
+            onMouseOver={item.name === "Summary reports" ? handleNestedMenuOpen : undefined}
+          >
+            {item.name}
+          </MenuItem>
+        ))}
+        {nestedOpen && (
+          <Menu
+            id="nested-menu"
+            anchorEl={nestedAnchorEl}
+            open={true}
+            onClose={() => setNestedAnchorEl(null)}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+          >
+            {/* Add nested menu items here */}
+            {nestedReports.map((item, index) => (
+              <MenuItem key={index} onClick={() => handleMenuItemClick(item.link)}>
+                {item.name}
+              </MenuItem>
+            ))}     
+          </Menu>
+        )}
+      </Menu>
     </Box>
   );
 };
